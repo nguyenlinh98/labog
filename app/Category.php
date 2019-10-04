@@ -17,6 +17,7 @@ class Category extends Model
 
     public function getActiveCategory($active = null)
     {
-        return $this->where('active' , '=', $active)->get();
+        return $this->where('active' , '=', $active)
+            ->get();
     }
 }

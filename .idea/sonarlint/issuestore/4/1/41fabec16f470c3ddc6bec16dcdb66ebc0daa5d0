@@ -1,0 +1,8 @@
+
+3php:S1253"Remove this commented out code.(ó¯ôÀ
+L	php:S1481"0Remove this unused "$categories" local variable.(ÈƒÆÚ8‹Ê›Ã×-
+8php:S125"Remove this commented out code.(œ¨Ä–øÿÿÿÿ
+\	php:S11926"GDefine a constant instead of duplicating this literal "status" 3 times.(à’„¶
+f	php:S1192<"LDefine a constant instead of duplicating this literal "/categories" 4 times.(Ñ¾£ùÿÿÿÿ
+b	php:S1192<"HDefine a constant instead of duplicating this literal "success" 4 times.(Ñ¾£ùÿÿÿÿ
+K	php:S14814"*Remove this unused "$data" local variable.(ŠÒ’ëþÿÿÿÿ8Ðº¯„Ù-

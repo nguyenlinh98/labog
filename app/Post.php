@@ -17,10 +17,9 @@ class Post extends Model
         return $this->hasOne('App\Category', 'id','category_id');
     }
 
-    public function getByActive($active = null, $limit = 1)
+    public function getByActive($active = null)
     {
         return $this->where('active','=', $active)
-                    ->limit($limit)
                     ->get();
     }
 

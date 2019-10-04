@@ -6,7 +6,7 @@
         </div>
         <hr width="100%" color="#dfe6e9">
         <div class="body-category">
-            <form action="{{route('category/update',$category->id)}}" method="post">
+            <form action="{{route('category.update',$category->id)}}" method="post">
                 @method('PATCH')
                 @csrf
                 <div class="form-group">

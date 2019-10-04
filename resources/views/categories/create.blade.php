@@ -8,6 +8,15 @@
         <div class="card-header">
             <h1>Thêm thể loại mới</h1>
         </div>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 {{--              show error validate quickstart--}}
         <div class="cart-body">
             <form action="{{route('categories.store')}}" method="post" class="form_add">
@@ -15,6 +24,15 @@
                 <div class="form-group">
                     <label for="name">Tên thể loại:</label>
                     <input type="text" name="name" class="form-control">
+                    <span class="invalid-feedback col-md-3" >
+                       Trường dữ liệu không được để trống !
+                        <small><i class="fa fa-star-of-life"></i></small>
+                    </span>
+                    @if($errors->has('name'))
+                        <span class="invalid-feedback">
+                          {{$errors->first('name')}}
+                        </span>
+                    @endif
                 </div>
                 <div class="form-group ">
                     <label for="status">Trạng thái:</label>

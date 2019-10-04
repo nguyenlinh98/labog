@@ -4,17 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Post;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
 
-    public function __construct(Post $post,Category $category)
+    public function __construct(Post $post, Category $category)
     {
         $this->middleware('auth');
         $this->post = $post;
         $this->category = $category;
+//        $this->category = $category;
 
     }
 
@@ -25,7 +27,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $activePosts = $this->post->getByActive(null, 5);
+        $activePosts = $this->post->getByActive(null,5);
 
         $inactivePosts = $this->post->getByActive(1, 5);
 
@@ -52,19 +54,13 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //  the post is validate data
-        $request->validate([
-            'title' => 'required|min:3|max:255',
-            'content' => 'required',
-            'publish' => 'required',
-            'category_id' => 'required'
-        ]);
+        $this->validator($request);
 //        dd($request->get('category_id'));
         $posts = new Post([
-            'title' => $request->get('title'),
-            'content' => $request->get('content'),
-//            'status' => '1',
-            'publish' => $request->get('publish'),
-            'category_id' => $request->get('category_id')
+            'title' => $request->title,
+            'content' => $request->content,
+            'publish' => $request->publish,
+            'category_id' => $request->category_id,
 //                'delete_flag' => null
         ]);
         $posts->save();
@@ -104,7 +100,16 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validator($request);
         $post = Post::find($id);
+        try{
+            if($post ==null)
+            {
+                throw new Exception('Không có bài viết nào có id này');
+            }
+        }catch(Exception $e){
+            abort(403,$e->getMessage());
+        }
         $post->title = $request->get('title');
         $post->content = $request->get('content');
         $post->status = $request->get('status');
@@ -133,7 +138,7 @@ class PostController extends Controller
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
 
-    public function delete(Request $request, $id)
+    public function inactive($id)
     {
 
         $post = Post::find($id);
@@ -151,5 +156,14 @@ class PostController extends Controller
      * method get list category
      * @return Category[]|\Illuminate\Database\Eloquent\Collection
      */
+    public function validator($data)
+    {
+         return $data->validate([
+            'title' => 'required|min:3|max:255',
+            'content' => 'required',
+            'publish' => 'required',
+            'category_id' => 'required'
+        ]);
+    }
 
 }

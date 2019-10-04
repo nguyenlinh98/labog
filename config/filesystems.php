@@ -54,6 +54,13 @@ return [
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
+//        'public' =>[
+//            'driver' => 'local',
+//            'root'   => public_path(),
+//            'url' => env('APP_URL').'/public',
+//            'visibility' =>'public',
+//        ],
+
 
         's3' => [
             'driver' => 's3',
@@ -67,3 +74,4 @@ return [
     ],
 
 ];
+//dd( public_path());

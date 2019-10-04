@@ -1,0 +1,11 @@
+
+3php:S125>"Remove this commented out code.(ãŞÎÃ
+[	php:S1192H"FDefine a constant instead of duplicating this literal "/post" 4 times.(ıÇ£ç
+a	php:S1192<"LDefine a constant instead of duplicating this literal "category_id" 4 times.(È¾Š
+b	php:S1192;"HDefine a constant instead of duplicating this literal "publish" 4 times.(ùßŞÌøÿÿÿÿ
+c	php:S1192:"IDefine a constant instead of duplicating this literal "required" 3 times.(ıÂ€íøÿÿÿÿ
+9php:S125“"Remove this commented out code.(ŒÓß–ûÿÿÿÿ
+]	php:S1192H"HDefine a constant instead of duplicating this literal "success" 3 times.(ıÇ£ç
+?php:S125"Remove this commented out code.(²óöüÿÿÿÿ8¤ˆÇÃ×-
+[	php:S11929"FDefine a constant instead of duplicating this literal "title" 4 times.(¶é¤”
+b	php:S1192:"HDefine a constant instead of duplicating this literal "content" 4 times.(ıÂ€íøÿÿÿÿ

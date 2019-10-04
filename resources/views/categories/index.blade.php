@@ -29,13 +29,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @if($categories == null)
+                    @if($activeCategories == null)
                         <div class="alert alert-danger" role="alert">
                             Không có bản ghi nào!
                         </div>
                     @else
-                        @foreach($categories as $category)
-                            @if($category->delete_flag == null)
+                        @foreach($activeCategories as $category)
                             <tr>
                                 <td>{{$category->id}}</td>
                                 <td>{{$category->name}}</td>
@@ -49,17 +48,15 @@
                                 </td>
                                 <td>
                                     <form action="">
-                                        <button type="button" class="btn btn-info"><i class="fa fa-sync-alt"></i></button>
-                                        <a href="{{route('category/edit',$category->id)}}" class="btn btn-warning"><i class="fa fa-edit"></i></a>
+                                        <a href="{{route('category.edit',$category->id)}}" class="btn btn-warning"><i class="fa fa-edit"></i></a>
                                         @csrf
                                         @method('DELETE')
-                                        <a href="{{route('category/delete',$category->id)}}" class="btn btn-danger"
+                                        <a href="{{route('category.inactive',$category->id)}}" class="btn btn-danger"
                                            onclick="return confirm('Bạn có chắc chắn muốn xóa?')"><i
                                                     class="fa fa-trash-alt"></i></a>
                                     </form>
                                 </td>
                             </tr>
-                            @endif
                         @endforeach
                     @endif
                     </tbody>
@@ -84,38 +81,36 @@
                         <th>Hành động</th>
                     </thead>
                     <tbody>
-                    @if($categories == null)
+                    @if($inactiveCategories == null)
                         <div class="alert alert-danger" role="alert">
                             Empty data!
                         </div>
                     @else
-                        @foreach($categories as $category)
-                            @if($category->delete_flag != null)
+                        @foreach($inactiveCategories as $inactivecategory)
                                 <tr>
-                                    <td>{{$category->id}}</td>
-                                    <td>{{$category->name}}</td>
+                                    <td>{{$inactivecategory->id}}</td>
+                                    <td>{{$inactivecategory->name}}</td>
                                     <td>
-                                        @if($category->status ==1)
+                                        @if($inactivecategory->status ==1)
                                             <a href="#" class="btn btn-success">Enable</a>
                                         @else
                                             <a href="#" class="btn btn-danger">Disable</a>
                                         @endif
 
                                     </td>
-                                    <td>{{$category->delete_flag}}</td>
+                                    <td>{{$inactivecategory->active}}</td>
                                     <td>
                                         <form action="">
                                             @csrf
                                             @method('DELETE')
-                                            <a href="{{route('category/delete',$category->id)}}" class="btn btn-info"
-                                               onclick="return confirm('Bạn có chắc chắn muốn xóa?')"><i class="fa fa-sync-alt"></i></a>
-                                            <a href="{{route('category/destroy',$category->id)}}" class="btn btn-danger"
+                                            <a href="{{route('category.inactive',$inactivecategory->id)}}" class="btn btn-info"
+                                               onclick="return confirm('Bạn có chắc chắn muốn khôi phục lại?')"><i class="fa fa-sync-alt"></i></a>
+                                            <a href="{{route('category.destroy',$inactivecategory->id)}}" class="btn btn-danger"
                                                onclick="return confirm('Bạn có chắc chắn muốn xóa?')"><i
                                                         class="fa fa-trash-alt"></i></a>
                                         </form>
                                     </td>
                                 </tr>
-                            @endif
                         @endforeach
                     @endif
                     </tbody>

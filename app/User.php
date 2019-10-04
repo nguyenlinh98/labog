@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Role;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -15,9 +16,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    protected $fillable = ['name', 'email', 'password','images','active'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -37,13 +36,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function  scopeActive($query)
+    /**
+     * Method get all user active with $active
+     * @param null $active
+     * @return mixed
+     */
+    public function getUserByActive($active = null,$limit =1)
     {
-        return $query->where('active',null);
+        return $this->where('active', '=', $active)
+            ->limit($limit)
+            ->get();
     }
-
-    public function  scopeInactive($query)
-    {
-        return $query->where('active',1);
-    }
+     public function getAttributeImage()
+     {
+         return $this->images;
+     }
+     
 }

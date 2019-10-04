@@ -21,6 +21,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href={{ route('users') }}>{{ __('Tài khoản') }}</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href={{ route('roles') }}>{{ __('Quản lý Role') }}</a>
+                </li>
 
             </ul>
 
@@ -38,17 +41,20 @@
                     @endif
                 @else
                     <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            @if (Auth::user()->images)
+                                <img src="{{Storage::url(auth()->user()->images)}}" style="width: 40px; height: 40px; border-radius: 50%;">
+                            @endif
                             {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
-
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}
                             </a>
+                            <a class="dropdown-item" href="{{ route('profile') }}">Profile</a>
+
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                   style="display: none;">

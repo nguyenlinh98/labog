@@ -2,17 +2,26 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Post;
 use Illuminate\Http\Request;
-//use Exception;
+use Exception;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use App\Traits\UploadTrait;
+
 
 class UserController extends Controller
 {
-    public function __construct()
+    use UploadTrait;
+
+    public function __construct(User $user)
     {
         $this->middleware('userAuth:web');
+        $this->user = $user;
     }
 
     /**
@@ -22,10 +31,10 @@ class UserController extends Controller
      */
     public function index()
     {
+        $activeUsers = $this->user->getUserByActive(null, '5');
+        $inactiveUsers = $this->user->getUserByActive('1', '5');
 
-       $activeUsers = User::active()->get();
-       $inactiveUsers = User::inactive()->get();
-       return view('users.index', compact('activeUsers','inactiveUsers'));
+        return view('users.index', compact('activeUsers', 'inactiveUsers'));
     }
 
     /**
@@ -47,14 +56,22 @@ class UserController extends Controller
     public function store(Request $request)
     {
 
-        $data = $request->validate([
-            'name' => 'required|min:3|max:255',
-            'email'=> 'required|email|max:255|unique:users',
-        ]);
-        $users= new User();
-        $users->name = $request->get('name');
-        $users->email = $request->get('email');
+        $data = $this->validator($request->all());
+        $users = new User();
+//         try{
+//             if (User::where('email', $request->email)->exists()) {
+//                 throw new Exception ('Email đã tồn tại');
+//             }else{
+//                 $users->email = $request->email;
+//             }
+//         }catch(Exception $exception)
+//         {
+//             return back()->withError('User has ID = ' . $request->input('user_id') . ' does not exist')->withInput();
+//         }
+        $users->name = $request->name;
+        $users->email = $request->email;
         $users->password = Hash::make('123456');
+        $users->role = $request->role;
         $users->save();
         return redirect('/users')->with('success', ' thêm thành công');
     }
@@ -78,8 +95,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user =User::find($id);
-        return view('users.edit',compact('user'));
+        $user = User::find($id);
+        return view('users.edit', compact('user'));
 
     }
 
@@ -90,10 +107,44 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id, Request $request)
     {
-        //
+
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|string|max:255|email'
+        ]);
+        $data = $request->only(['name','email']);
+        try {
+            // Lay ra user hien tai
+            $user = User::findOrFail($id);
+
+            if ($user == null)
+            {
+                throw new Exception("Tài khoản không tồn tại");
+            }
+
+        } catch (\Exception $e)
+        {
+            abort('404', $e->getMessage());
+        }
+
+        if ($request->password != null)
+        {
+            $data['password'] = Hash::make( $request->password );
+        }
+
+        if ( $request->has('images') ) {
+            $request->validate(['images' => 'image']);
+            $data['images'] = Storage::disk('public')->put('avatar', $request->images);
+        }
+
+        // Thay dổi name bằng  value trong input[name]
+        $user->update($data);
+        return redirect('/users')->with(['status' => 'Profile được cập nhật thành công!']);
     }
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -103,14 +154,14 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user =User::find($id);
-        try{
+        $user = User::find($id);
+        try {
             $user->delete();
-        }catch(\Exception $e){
-            abort(404,$e->getMessage());
+        } catch (\Exception $e) {
+            abort(404, $e->getMessage());
         }
 
-        return redirect('user')->with('success','Đã có bản ghi bị xóa');
+        return redirect('users')->with('success', 'Đã có bản ghi bị xóa');
     }
 
     /**
@@ -123,14 +174,80 @@ class UserController extends Controller
     public function inactive($id)
     {
         $user = User::find($id);
-       if($user->active ==null)
-       {
-           $user->active = '1';
-       }
-       else
-           $user->active =null;
-       $user ->save();
-       return redirect('/users')->with('success','Tài khoản '.$user->name.' đã được chuyển đổi');
+        if ($user->active == null) {
+            $user->active = '1';
+        } else
+            $user->active = null;
+        $user->save();
+        return redirect('/users')->with('success', 'Tài khoản ' . $user->name . ' đã được chuyển đổi');
+    }
+
+    public function profile()
+    {
+        return view('users.profile');
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $id = Auth::guard()->user()->id;
+        // Validate form
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|string|max:255|email'
+        ]);
+        $data = $request->only(['name','email']);
+        try {
+            // Lay ra user hien tai
+            $user = User::findOrFail($id);
+
+            if ($user == null)
+            {
+                throw new Exception("Tài khoản không tồn tại");
+            }
+
+        } catch (\Exception $e)
+        {
+            abort('404', $e->getMessage());
+        }
+
+        if ($request->password != null)
+        {
+            $data['password'] = Hash::make( $request->password );
+        }
+
+        if ( $request->has('images') ) {
+            $request->validate(['images' => 'image']);
+            $data['images'] = Storage::disk('public')->put('avatar', $request->images);
+        }
+
+        // Thay dổi name bằng  value trong input[name]
+        $user->update($data);
+        return redirect()->back()->with(['status' => 'Profile được cập nhật thành công!']);
+    }
+
+    protected function validator($data)
+    {
+        return Validator::make($data, $this->roles(), $this->messegers());
+    }
+
+    protected function roles()
+    {
+        return [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'max:255', 'unique:email'],
+            'roles'=> ['requied'],
+
+        ];
+    }
+
+    protected function messegers()
+    {
+        return [
+            'name.required' => 'Không để trống vị trí này!',
+            'email.required' => 'Không để trống vị trí này',
+            'email.email' => 'Yêu cầu điền đúng định dạng  email!',
+            'roles.required' => 'Không để trống vị trí này!',
+        ];
     }
 
 

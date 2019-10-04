@@ -9,9 +9,11 @@ use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
-    public function __construct()
+    public function __construct(Category $category)
     {
         $this->middleware('auth');
+        $this->category = $category;
+
     }
 
     /**
@@ -22,7 +24,9 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::latest()->paginate(5);
-        return view('categories.index',compact('categories'));
+        $activeCategories = $this->category->getActiveCAtegory(null,'5');
+        $inactiveCategories = $this->category->getActiveCategory('1','5');
+        return view('categories.index',compact('activeCategories','inactiveCategories'));
 
     }
 
@@ -44,11 +48,11 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
 
-//        dd($request);
         $data = $request->validate([
-            'name' => 'required|min:3',
+            'name' => 'required|string|max:255',
             'status' => 'required'
         ]);
+//        dd($data);
         $categories = new Category();
         $categories->name = $request->get('name');
         $categories->status = $request->get('status');
@@ -88,9 +92,21 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+        $data = $request->only(['name']);
         $category = Category::find($id);
-        $category->name = $request->get('name');
-        $category->status = $request->get('status');
+        try{
+            if($category == null){
+                throw new \Exception('Không tồn tại thể loại này');
+            }
+        }
+        catch(    \Exception $e){
+            abort(404,$e->getMessage());
+        }
+        $category->name = $request->name;
+        $category->status = $request->status;
         $category->save();
          return redirect('/categories')->with('success','Đã có bản ghi thay đổi!');
 
@@ -110,15 +126,15 @@ class CategoryController extends Controller
 
     }
 
-    public function delete($id)
+    public function inactive($id)
     {
         $category = Category::find($id);
-        if($category->delete_flag == null)
+        if($category->active == null)
         {
-            $category->delete_flag =1;
+            $category->active =1;
         }
         else{
-            $category->delete_flag =null;
+            $category->active =null;
         }
         $category->save();
         return redirect('/categories')->with('success','Danh mục '.$category->name.' đã chuyển đổi thành công!');

@@ -63,7 +63,6 @@
                                     </td>
                                     <td>
                                         <form action="">
-                                            <button type="button" class="btn btn-info"><i class="fa fa-sync-alt"></i></button>
                                             <a href="{{route('edit', $activePost->id)}}" class="btn btn-warning"><i class="fa fa-edit"></i></a>
                                             @csrf
                                             @method('DELETE')

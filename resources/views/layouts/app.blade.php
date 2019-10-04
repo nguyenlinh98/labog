@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-
+    <script src="{{ asset('js/app.js') }}" defer></script>
 
     <link rel="stylesheet" href="{{asset('/bootstrap-4.3.1-dist/css/bootstrap.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('/fontawesome/css/all.css')}}">
@@ -25,7 +25,8 @@
 </head>
 <body>
     <div id="app">
-        @include('nav')
+        @include('layouts.nav')
+{{--        @include('nav')--}}
 
         <main class="py-4">
             <div class="container">

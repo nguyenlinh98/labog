@@ -16,6 +16,9 @@
                 <div class="modal-content">
 
                     <!-- Modal Header -->
+                    @if (session('error'))
+                        <div class="alert alert-danger text-center">{{ session('error') }}</div>
+                    @endif
                     <form action="{{route( 'users.store' )}}" method="post" id="storeForm">
                         @csrf
                         <div class="modal-header">
@@ -30,7 +33,7 @@
                                 <input type="text" class="form-control col-md-7" name="name" required>
 
                                 <span class="invalid-feedback col-md-3" >
-                                    Trường dữ liệu không được để trống ! <i class="fa fa-star-of-life"></i>
+                                    Trường dữ liệu không được để trống ! <small><i class="fa fa-star-of-life"></i></small>
                                 </span>
                                 @if( $errors->has('name') )
                                 <span class="invalidated-feedback">
@@ -43,7 +46,7 @@
                                 <input type="text" class="form-control col-md-7" name="email" required>
 
                                 <span class="invalid-feedback col-md-3" >
-                                    Trường dữ liệu không được để trống ! <i class="fa fa-star-of-life"></i>
+                                    Trường dữ liệu không được để trống ! <small><i class="fa fa-star-of-life"></i></small>
                                 </span>
                                 @if( $errors->has('email') )
                                     <span class="invalidated-feedback">
@@ -52,10 +55,35 @@
                                 @endif
                             </div>
                             <div class="form-group form-inline">
+                                <label for="password" class="col-md-2">Image : </label>
+                                <input type="file" class="form-control col-md-7" name="images" required>
+                                <span class="invalid-feedback col-md-3" >
+                                    Trường dữ liệu không được để trống ! <small><i class="fa fa-star-of-life"></i></small>
+                                </span>
+                                @if( $errors->has('images') )
+                                    <span class="invalid-feedback">
+                                    {{  $errors->first('images') }}
+                                </span>
+                                @endif
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="role" class="col-md-2">Roles : </label>
+                                <input type="text" class="form-control col-md-7" name="role" required>
+
+                                <span class="invalid-feedback col-md-3" >
+                                    Trường dữ liệu không được để trống ! <small><i class="fa fa-star-of-life"></i></small>
+                                </span>
+                                @if( $errors->has('role') )
+                                    <span class="invalidated-feedback">
+                                    {{  $errors->first('role') }}
+                                </span>
+                                @endif
+                            </div>
+                            <div class="form-group form-inline">
                                 <label for="password" class="col-md-2">Password : </label>
                                 <input type="password" class="form-control col-md-7" name="password" required>
                                 <span class="invalid-feedback col-md-3" >
-                                    Trường dữ liệu không được để trống ! <i class="fa fa-star-of-life"></i>
+                                    Trường dữ liệu không được để trống ! <small><i class="fa fa-star-of-life"></i></small>
                                 </span>
                                 @if( $errors->has('password') )
                                     <span class="invalidated-feedback">
@@ -113,7 +141,7 @@
                                         <td>{{$user->id}}</td>
                                         <td>{{$user->name}}</td>
                                         <td>{{$user->email}}</td>
-                                        <td></td>
+                                        <td>{{$user->role}}</td>
                                         <td>
                                             <a href="{{ route('users.edit',$user->id) }}" class="btn btn-warning"><i
                                                         class="fa fa-user-edit"></i></a>
@@ -226,7 +254,7 @@
                     }
                 });
             });
-        }) (jQuery);
+        });
 
     </script>
 @endsection
