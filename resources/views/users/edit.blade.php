@@ -47,7 +47,7 @@
                 </div>
                 <div class="form-group form-inline">
                     <label for="password" class="col-md-2">Password:</label>
-                    <input type="password" class="form-control col-md-10" value="{{$user->password}}"name="password">
+                    <input type="password" class="form-control col-md-10"name="password">
                     @if( $errors->has('name') )
                         <span class="invalidated-feedback">
                                     {{  $errors->first('password') }}

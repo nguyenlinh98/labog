@@ -19,6 +19,16 @@
         </ul>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="list" role="tabpanel" aria-labelledby="home-tab">
+                <div class="col-md-4" style="margin: 10px ">
+                    <form action="{{route('posts')}}">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control">
+                            <span class="input-group-prepend">
+                                <button type="submit" class="form-control btn btn-primary">Search</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
                 <table class="table table-hover">
                     <thead class="thead-light">
                     <tr class="active">
@@ -40,7 +50,8 @@
                             @if($activePost->delete_flag == null)
                                 <tr>
                                     <td>{{$activePost->id}}</td>
-                                    <td>{{$activePost->title}} </td>
+{{--                                    <td>{{$activePost->user}}</td>--}}
+                                    <td><a href="{{route('show',$activePost->id)}}">{{$activePost->title}}</a></td>
                                     <td >{{$activePost->content}}</td>
                                     <td>
                                         {{ $activePost->category->name }}
@@ -65,8 +76,8 @@
                                         <form action="">
                                             <a href="{{route('edit', $activePost->id)}}" class="btn btn-warning"><i class="fa fa-edit"></i></a>
                                             @csrf
-                                            @method('DELETE')
-                                            <a href="{{route('delete', $activePost->id)}}" class="btn btn-danger"
+                                            @method('PATCH')
+                                            <a href="{{route('inactive', $activePost->id)}}" class="btn btn-danger"
                                                onclick="return confirm('Bạn có chắc chắn muốn xóa?')"><i
                                                         class="fa fa-trash-alt"></i></a>
                                         </form>
@@ -79,17 +90,41 @@
 
                     </tbody>
                     <tfoot>
-                    <tr class="active">
-                        <th>Stt</th>
-                        <th>Tiêu đề</th>
-                        <th>Nội dung</th>
-                        <th>Thể loại</th>
-                        <th>Tình trạng</th>
-                        <th>Xuất bản</th>
-                        <th colspan="3">Hành động</th>
-                    </tr>
+                        <tr class="thead-light">
+                            <th>Stt</th>
+                            <th>Tiêu đề</th>
+                            <th>Nội dung</th>
+                            <th>Thể loại</th>
+                            <th>Tình trạng</th>
+                            <th>Xuất bản</th>
+                            <th colspan="3">Hành động</th>
+                        </tr>
                     </tfoot>
                 </table>
+                <div class="float-right page-item">
+                    <span>
+
+
+                    @if ( $activePosts->total() <= $activePosts->perPage() && $activePosts->hasMorePages() == false)
+
+                        <ul role="navigation" class="pagination">
+                            <li aria-disabled="true" aria-label="« Previous" class="page-item disabled">
+                                <span aria-hidden="true" class="page-link">‹</span>
+                            </li>
+                            <li aria-current="page" class="page-item active">
+                                <span class="page-link">1</span>
+                            </li>
+
+                            <li class="page-item">
+                                <a href="http://localhost:8000/post?page=2" rel="next" aria-label="Next »" class="page-link">›</a>
+                            </li>
+                        </ul>
+
+                    @else
+                            {{ $activePosts->links() }}
+                    @endif
+                     </span>
+                </div>
             </div>
             <div class="tab-pane fade" id="delete_flag" role="tabpanel" aria-labelledby="profile-tab">
                 <table class="table table-hover ">
@@ -137,8 +172,8 @@
                                     <td>
                                         <form action="">
                                             @csrf
-                                            @method('DELETE')
-                                            <a href="{{route('delete',$inactivePost->id)}}" class="btn btn-info"
+                                            @method('PATCH')
+                                            <a href="{{route('inactive',$inactivePost->id)}}" class="btn btn-info"
                                                onclick="return confirm('Bạn có chắc chắn muốn khôi phục dữ liệu?')"><i
                                                         class="fa fa-sync-alt"></i></a>
 
@@ -153,7 +188,7 @@
                     @endif
                     </tbody>
                     <tfoot>
-                    <tr class="active">
+                    <tr class="thead-light">
                         <th>Stt</th>
                         <th>Tiêu đề</th>
                         <th>Nội dung</th>
@@ -163,6 +198,27 @@
                         <th colspan="3">Hành động</th>
                     </tfoot>
                 </table>
+                <div class="float-right page-item">
+                    <span>
+                    @if ($inactivePosts->total() <= $inactivePosts->perPage() && $inactivePosts->hasMorePages() == false)
+
+                            <ul role="navigation" class="pagination">
+                            <li aria-disabled="true" aria-label="« Previous" class="page-item disabled">
+                                <span aria-hidden="true" class="page-link">‹</span>
+                            </li>
+                            <li aria-current="page" class="page-item active">
+                                <span class="page-link">1</span>
+                            </li>
+
+                            <li class="page-item">
+                                <a href="http://localhost:8000/post?page=2" rel="next" aria-label="Next »" class="page-link">›</a>
+                            </li>
+                        </ul>
+                        @else
+                            {{ $inactivePosts->links() }}
+                        @endif
+                     </span>
+                </div>
             </div>
         </div>
     </div>

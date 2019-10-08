@@ -15,9 +15,14 @@ class Category extends Model
         return $this->hasMany(Post::class);
     }
 
+    public function getCategory($active,$search = '', $paginate = 2)
+    {
+        return $this->where('name','like','%'.$search.'%')
+            ->getActiveCategory($active)
+            ->paginate($paginate);
+    }
     public function getActiveCategory($active = null)
     {
-        return $this->where('active' , '=', $active)
-            ->get();
+        return $this->where('active' , '=', $active);
     }
 }

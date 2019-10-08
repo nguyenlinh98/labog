@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Post;
+use App\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,13 +12,12 @@ use Illuminate\Support\Facades\DB;
 class PostController extends Controller
 {
 
-    public function __construct(Post $post, Category $category)
+    public function __construct(Post $post, Category $category, User $user)
     {
         $this->middleware('auth');
         $this->post = $post;
+        $this->user = $user;
         $this->category = $category;
-//        $this->category = $category;
-
     }
 
     /**
@@ -25,12 +25,26 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $activePosts = $this->post->getByActive(null,5);
+//        dd($request->all());
+        $search = $request->search;
+        $user  = auth()->user();
+//        dd($user);
+        $this->authorize($user->role,'viewAny');
+        if($user->role === 'admin')
+        {
+            $activePosts = $this->post->getByActive(null,$search,5);
 
-        $inactivePosts = $this->post->getByActive(1, 5);
+            $inactivePosts = $this->post->getByActive(1,$search,5);
+        }
+        else
+        {
+            $activePosts = $this->post->getPostByUser(null,$search,5,$user->id);
 
+            $inactivePosts = $this->post->getPostByUser(1,$search,5,$user->id);
+        }
+//         dd($activePosts);
         return view('posts.index', compact(['inactivePosts', 'activePosts']));
     }
 
@@ -41,7 +55,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        $categories = $this->category->getActiveCategory();
+        $categories = $this->category->getActiveCategory(null)->get();
         return view('posts.create', compact('categories'));
     }
 
@@ -53,19 +67,21 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //  the post is validate data
+        //  the post is validate detail
+
         $this->validator($request);
-//        dd($request->get('category_id'));
+
         $posts = new Post([
             'title' => $request->title,
-            'content' => $request->content,
+//            'content' => $request->content,
             'publish' => $request->publish,
-            'category_id' => $request->category_id,
-//                'delete_flag' => null
+            'category_id' => $request->category_id
         ]);
+        $posts->user_id = auth()->user()->id;
         $posts->save();
         return redirect('/post')->with('success', 'Thêm thành công!');
     }
+
 
     /**
      * Display the specified resource.
@@ -75,7 +91,17 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = auth()->user();
+          if($user->role === 'admin')
+          {
+              $post = Post::all();
+          }
+          elseif(($user->role ==='editor')|| ($user->role === 'author'))
+          {
+              $post = Post::where('user_id','=',$user->id)->get();
+          }
+          dd($post);
+        return view('posts.show',compact('post'));
     }
 
     /**

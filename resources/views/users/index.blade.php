@@ -122,8 +122,8 @@
             <div class="tab-content">
                 <div class="tab-pane container active" id="list">
                     <table class="table table-hover">
-                        <thead>
-                        <tr>
+                        <thead class="thead-light">
+                        <tr >
                             <th>Stt</th>
                             <th>Username</th>
                             <th>Email</th>
@@ -161,7 +161,7 @@
                         @endif
                         </tbody>
                         <tfoot>
-                        <tr>
+                        <tr class="thead-light">
                             <th>Stt</th>
                             <th>Username</th>
                             <th>Email</th>
@@ -170,10 +170,31 @@
                         </tr>
                         </tfoot>
                     </table>
+                    <div class="float-right page-item">
+                    <span>
+                    @if ($activeUsers->total() <= $activeUsers->perPage() && $activeUsers->hasMorePages() == false)
+
+                            <ul role="navigation" class="pagination">
+                            <li aria-disabled="true" aria-label="« Previous" class="page-item disabled">
+                                <span aria-hidden="true" class="page-link">‹</span>
+                            </li>
+                            <li aria-current="page" class="page-item active">
+                                <span class="page-link">1</span>
+                            </li>
+
+                            <li class="page-item">
+                                <a href="http://localhost:8000/user?page=2" rel="next" aria-label="Next »" class="page-link">›</a>
+                            </li>
+                        </ul>
+                        @else
+                            {{ $activeUsers->links() }}
+                        @endif
+                     </span>
+                    </div>
                 </div>
                 <div class="tab-pane container fade" id="inactive">
                     <table class="table table-hover">
-                        <thead>
+                        <thead class="thead-light">
                         <tr>
                             <th>Stt</th>
                             <th>Username</th>
@@ -216,7 +237,7 @@
                         @endif
                         </tbody>
                         <tfoot>
-                        <tr>
+                        <tr class="thead-light">
                             <th>Stt</th>
                             <th>Username</th>
                             <th>Email</th>
@@ -225,6 +246,27 @@
                         </tr>
                         </tfoot>
                     </table>
+                    <div class="float-right page-item">
+                    <span>
+                    @if ($inactiveUsers->total() <= $inactiveUsers->perPage() && $inactiveUsers->hasMorePages() == false)
+
+                            <ul role="navigation" class="pagination">
+                            <li aria-disabled="true" aria-label="« Previous" class="page-item disabled">
+                                <span aria-hidden="true" class="page-link">‹</span>
+                            </li>
+                            <li aria-current="page" class="page-item active">
+                                <span class="page-link">1</span>
+                            </li>
+
+                            <li class="page-item">
+                                <a href="http://localhost:8000/user?page=2" rel="next" aria-label="Next »" class="page-link">›</a>
+                            </li>
+                        </ul>
+                        @else
+                            {{ $inactiveUsers->links() }}
+                        @endif
+                     </span>
+                    </div>
                 </div>
             </div>
         </div>

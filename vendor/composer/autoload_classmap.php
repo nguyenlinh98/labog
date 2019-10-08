@@ -6,6 +6,11 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Builds\\Authenticate\\AccountChange' => $baseDir . '/app/Builds/Authenticate/AccountChange.php',
+    'App\\Builds\\Interfaces\\CategoryInterface' => $baseDir . '/app/Builds/Interfaces/CategoryInterface.php',
+    'App\\Builds\\Interfaces\\PostInterface' => $baseDir . '/app/Builds/Interfaces/PostInterface.php',
+    'App\\Builds\\Interfaces\\UserInterface' => $baseDir . '/app/Builds/Interfaces/UserInterface.php',
+    'App\\Builds\\Services\\User\\Traits\\UserTrait' => $baseDir . '/app/Builds/Services/User/Traits/UserTrait.php',
     'App\\Category' => $baseDir . '/app/Category.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',

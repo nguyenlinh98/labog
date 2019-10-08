@@ -23,6 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+//        $this->authorize('member');
         return view('users.profile');
     }
 }

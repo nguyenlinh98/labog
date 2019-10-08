@@ -21,10 +21,12 @@ Route::prefix('post')->group( function (){
     Route::get('/','PostController@index')->name('posts');
     Route::get('/create','PostController@create')->name('add');
     Route::post('/store','PostController@store')->name('store');
+    Route::get('/show/{id}','PostController@show')->name('show');
     Route::get('/edit/{id}','PostController@edit')->name('edit');
     Route::patch('/update/{id}','PostController@update')->name('update');
-    Route::get('/delete/{id}','PostController@delete')->name('delete');
+    Route::patch('/inactive/{id}','PostController@inactive')->name('inactive');
     Route::get('/destroy/{id}','PostController@destroy')->name('destroy');
+    Route::get('/search','PostController@search')->name('search');
 });
 
 //category

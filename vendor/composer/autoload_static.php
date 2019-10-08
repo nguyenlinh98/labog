@@ -380,6 +380,11 @@ class ComposerStaticInit0efdc7c53706960d8353ac8a06efb458
     );
 
     public static $classMap = array (
+        'App\\Builds\\Authenticate\\AccountChange' => __DIR__ . '/../..' . '/app/Builds/Authenticate/AccountChange.php',
+        'App\\Builds\\Interfaces\\CategoryInterface' => __DIR__ . '/../..' . '/app/Builds/Interfaces/CategoryInterface.php',
+        'App\\Builds\\Interfaces\\PostInterface' => __DIR__ . '/../..' . '/app/Builds/Interfaces/PostInterface.php',
+        'App\\Builds\\Interfaces\\UserInterface' => __DIR__ . '/../..' . '/app/Builds/Interfaces/UserInterface.php',
+        'App\\Builds\\Services\\User\\Traits\\UserTrait' => __DIR__ . '/../..' . '/app/Builds/Services/User/Traits/UserTrait.php',
         'App\\Category' => __DIR__ . '/../..' . '/app/Category.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',

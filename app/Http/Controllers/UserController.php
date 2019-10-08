@@ -29,12 +29,16 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index( Request $request)
     {
-        $activeUsers = $this->user->getUserByActive(null, '5');
-        $inactiveUsers = $this->user->getUserByActive('1', '5');
+        $search_content = $request->search;
+        $user  = auth()->user()->role;
+        $this->authorize($user,'viewAny');
 
-        return view('users.index', compact('activeUsers', 'inactiveUsers'));
+        $activeUsers = $this->user->getPagination(null, $search_content,'5');
+        $inactiveUsers = $this->user->getPagination('1', $search_content,'5');
+
+        return view('users.index', compact(['activeUsers', 'inactiveUsers']));
     }
 
     /**
@@ -44,7 +48,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('/users/create');
+
     }
 
     /**
@@ -57,6 +61,8 @@ class UserController extends Controller
     {
 
         $data = $this->validator($request->all());
+        $user  = auth()->user()->role;
+        $this->authorize($user,'viewAny');
         $users = new User();
 //         try{
 //             if (User::where('email', $request->email)->exists()) {
@@ -95,7 +101,18 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
+        $role  = auth()->user()->role;
+        $this->authorize($role,'viewAny');
+        try{
+            if($role == null) {
+                throw new Exception("Không tồn tại tài khoản với id này");
+            }
+            $user = User::find($id);
+        }catch(   Exception $e)
+        {
+            abort('404', $e->getMessage());
+        }
+
         return view('users.edit', compact('user'));
 
     }

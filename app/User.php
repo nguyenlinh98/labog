@@ -41,15 +41,22 @@ class User extends Authenticatable
      * @param null $active
      * @return mixed
      */
-    public function getUserByActive($active = null,$limit =1)
+
+    public function getPagination($active = null,$search = '', $paginate =1)
     {
-        return $this->where('active', '=', $active)
-            ->limit($limit)
-            ->get();
+        return $this->where('active','=',$active)
+            ->where('name','like','%'.$search.'%')
+            ->paginate($paginate);
     }
+
      public function getAttributeImage()
      {
          return $this->images;
      }
-     
+
+     public function posts()
+     {
+         return $this->belongsTo('App\Post','user_id','id');
+     }
+
 }

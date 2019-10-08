@@ -61,7 +61,7 @@
                     @endif
                     </tbody>
                     <tfoot>
-                    <tr>
+                    <tr class="thead-light">
                         <th>Stt</th>
                         <th>Tên thể loại</th>
                         <th>Trạng thái</th>
@@ -69,6 +69,27 @@
                     </tr>
                     </tfoot>
                 </table>
+                <div class="float-right page-item">
+                    <span>
+                    @if ($activeCategories->total() <= $activeCategories->perPage() && $activeCategories->hasMorePages() == false)
+
+                            <ul role="navigation" class="pagination">
+                            <li aria-disabled="true" aria-label="« Previous" class="page-item disabled">
+                                <span aria-hidden="true" class="page-link">‹</span>
+                            </li>
+                            <li aria-current="page" class="page-item active">
+                                <span class="page-link">1</span>
+                            </li>
+
+                            <li class="page-item">
+                                <a href="http://localhost:8000/category?page=2" rel="next" aria-label="Next »" class="page-link">›</a>
+                            </li>
+                        </ul>
+                        @else
+                            {{ $activeCategories->links() }}
+                        @endif
+                     </span>
+                </div>
             </div>
             <div class="tab-pane fade" id="delete_flag" role="tabpanel" aria-labelledby="profile-tab">
                 <table class="table table-hover ">
@@ -115,7 +136,7 @@
                     @endif
                     </tbody>
                     <tfoot>
-                    <tr>
+                    <tr class="thead-light">
                         <th>Stt</th>
                         <th>Tên thể loại</th>
                         <th>Trạng thái</th>
@@ -124,6 +145,27 @@
                     </tr>
                     </tfoot>
                 </table>
+                <div class="float-right page-item">
+                    <span>
+                    @if ($inactiveCategories->total() <= $inactiveCategories->perPage() && $inactiveCategories->hasMorePages() == false)
+
+                            <ul role="navigation" class="pagination">
+                            <li aria-disabled="true" aria-label="« Previous" class="page-item disabled">
+                                <span aria-hidden="true" class="page-link">‹</span>
+                            </li>
+                            <li aria-current="page" class="page-item active">
+                                <span class="page-link">1</span>
+                            </li>
+
+                            <li class="page-item">
+                                <a href="http://localhost:8000/category?page=2" rel="next" aria-label="Next »" class="page-link">›</a>
+                            </li>
+                        </ul>
+                        @else
+                            {{ $inactiveCategories->links() }}
+                        @endif
+                     </span>
+                </div>
             </div>
         </div>
     </div>

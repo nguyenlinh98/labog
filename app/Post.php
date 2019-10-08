@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    protected $fillable = ['title', 'content', 'status', 'publish', 'active','category_id'];
+    protected $fillable = ['title', 'content', 'status', 'publish', 'active','category_id','user_id'];
 
     protected $table = 'posts';
 
@@ -17,20 +17,25 @@ class Post extends Model
         return $this->hasOne('App\Category', 'id','category_id');
     }
 
-    public function getByActive($active = null)
+    public function getByActive($active = null, $search = '', $paginate = 1)
     {
-        return $this->where('active','=', $active)
-                    ->get();
+        return $this->where('active','=', $active )
+            ->where('title','like','%'.$search.'%')
+            ->paginate($paginate);
     }
 
+    public function getPostByUser($active = null, $search = '', $paginate = 1, $id = null)
+    {
+        return $this->where('active','=', $active )
+            ->where ('user_id', '=',$id)
+            ->where('title','like','%'.$search.'%')
+            ->paginate($paginate);
 
+    }
 
-
-
-//    public  function user()
-//    {
-//        return $this->hasOne(User::class,'id','user_id');
-//    }
-
+    public function user()
+    {
+        return $this->hasOne('App\User','id','user_id');
+    }
 
 }

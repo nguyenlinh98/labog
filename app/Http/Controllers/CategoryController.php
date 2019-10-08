@@ -21,11 +21,11 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::latest()->paginate(5);
-        $activeCategories = $this->category->getActiveCAtegory(null,'5');
-        $inactiveCategories = $this->category->getActiveCategory('1','5');
+        $search = $request->search;
+        $activeCategories = $this->category->getActiveCAtegory(null,$search,'5');
+        $inactiveCategories = $this->category->getActiveCategory('1',$search,'5');
         return view('categories.index',compact('activeCategories','inactiveCategories'));
 
     }
