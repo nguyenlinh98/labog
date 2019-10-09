@@ -74,12 +74,13 @@
                                     </td>
                                     <td>
                                         <form action="">
-                                            <a href="{{route('edit', $activePost->id)}}" class="btn btn-warning"><i class="fa fa-edit"></i></a>
                                             @csrf
                                             @method('PATCH')
-                                            <a href="{{route('inactive', $activePost->id)}}" class="btn btn-danger"
+                                            <a href="{{route('edit', $activePost->id)}}" class="btn btn-warning"><i class="fa fa-edit"></i></a>
+                                            <a href="{{route('inactive',$activePost->id)}}" class="btn btn-danger"
                                                onclick="return confirm('Bạn có chắc chắn muốn xóa?')"><i
                                                         class="fa fa-trash-alt"></i></a>
+
                                         </form>
 
                                     </td>
@@ -170,19 +171,24 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <form action="">
+                                        <form action="" method="post">
                                             @csrf
                                             @method('PATCH')
                                             <a href="{{route('inactive',$inactivePost->id)}}" class="btn btn-info"
                                                onclick="return confirm('Bạn có chắc chắn muốn khôi phục dữ liệu?')"><i
                                                         class="fa fa-sync-alt"></i></a>
-
-                                            <a href="{{route('destroy',$inactivePost->id)}}" class="btn btn-danger"
-                                               onclick="return confirm('Bạn có chắc chắn muốn xóa?')"><i
-                                                        class="fa fa-trash-alt"></i></a>
                                         </form>
+                                        @can('delete-post')
+                                        <a href="#" class="btn btn-danger"
+                                           onclick=" event.preventDefault();  document.getElementById('formDel-{{$inactivePost->id}}').submit();">
+                                            <i class="fa fa-trash-alt"></i></a>
 
-                                    </td>
+                                        <form action="{{ route('destroy', $inactivePost->id) }}" method="post"
+                                              id="formDel-{{$inactivePost->id}}" style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                        @endcan
                                 </tr>
                         @endforeach
                     @endif

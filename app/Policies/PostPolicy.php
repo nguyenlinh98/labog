@@ -28,10 +28,7 @@ class PostPolicy
 
     public function viewAny(User $user)
     {
-        if($user->role ==='member')
-        {
-            return true;
-        }
+         return !!in_array($user->role,['member']);
 
     }
 
@@ -69,7 +66,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post)
     {
-        //
+         return $user->can('update') || $user->id = $post->user_id;
     }
 
     /**
@@ -81,7 +78,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post)
     {
-        //
+        return $user->can('admin') || $user->id = $post->user_id;
     }
 
     /**

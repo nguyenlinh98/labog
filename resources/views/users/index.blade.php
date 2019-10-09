@@ -4,13 +4,15 @@
         <div class="header_title">
             <h1>Danh sách người dùng</h1>
         </div>
-        <div class="add_post float-right">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formadd">
-                Tạo tài khoản mới
-            </button>
-        </div>
+        @can('create',\App\User::class)
+            <div class="add_post float-right">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formadd">
+                    Tạo tài khoản mới
+                </button>
+            </div>
+    @endcan
 
-        <!-- The Modal -->
+    <!-- The Modal -->
         <div class="modal" id="formadd">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -32,11 +34,12 @@
                                 <label for="name" class="col-md-2">Username : </label>
                                 <input type="text" class="form-control col-md-7" name="name" required>
 
-                                <span class="invalid-feedback col-md-3" >
-                                    Trường dữ liệu không được để trống ! <small><i class="fa fa-star-of-life"></i></small>
+                                <span class="invalid-feedback col-md-3">
+                                    Trường dữ liệu không được để trống ! <small><i
+                                                class="fa fa-star-of-life"></i></small>
                                 </span>
                                 @if( $errors->has('name') )
-                                <span class="invalidated-feedback">
+                                    <span class="invalidated-feedback">
                                     {{  $errors->first('name') }}
                                 </span>
                                 @endif
@@ -45,8 +48,9 @@
                                 <label for="name" class="col-md-2">Địa chỉ Email : </label>
                                 <input type="text" class="form-control col-md-7" name="email" required>
 
-                                <span class="invalid-feedback col-md-3" >
-                                    Trường dữ liệu không được để trống ! <small><i class="fa fa-star-of-life"></i></small>
+                                <span class="invalid-feedback col-md-3">
+                                    Trường dữ liệu không được để trống ! <small><i
+                                                class="fa fa-star-of-life"></i></small>
                                 </span>
                                 @if( $errors->has('email') )
                                     <span class="invalidated-feedback">
@@ -55,23 +59,12 @@
                                 @endif
                             </div>
                             <div class="form-group form-inline">
-                                <label for="password" class="col-md-2">Image : </label>
-                                <input type="file" class="form-control col-md-7" name="images" required>
-                                <span class="invalid-feedback col-md-3" >
-                                    Trường dữ liệu không được để trống ! <small><i class="fa fa-star-of-life"></i></small>
-                                </span>
-                                @if( $errors->has('images') )
-                                    <span class="invalid-feedback">
-                                    {{  $errors->first('images') }}
-                                </span>
-                                @endif
-                            </div>
-                            <div class="form-group form-inline">
                                 <label for="role" class="col-md-2">Roles : </label>
                                 <input type="text" class="form-control col-md-7" name="role" required>
 
-                                <span class="invalid-feedback col-md-3" >
-                                    Trường dữ liệu không được để trống ! <small><i class="fa fa-star-of-life"></i></small>
+                                <span class="invalid-feedback col-md-3">
+                                    Trường dữ liệu không được để trống ! <small><i
+                                                class="fa fa-star-of-life"></i></small>
                                 </span>
                                 @if( $errors->has('role') )
                                     <span class="invalidated-feedback">
@@ -79,30 +72,18 @@
                                 </span>
                                 @endif
                             </div>
-                            <div class="form-group form-inline">
-                                <label for="password" class="col-md-2">Password : </label>
-                                <input type="password" class="form-control col-md-7" name="password" required>
-                                <span class="invalid-feedback col-md-3" >
-                                    Trường dữ liệu không được để trống ! <small><i class="fa fa-star-of-life"></i></small>
-                                </span>
-                                @if( $errors->has('password') )
-                                    <span class="invalidated-feedback">
-                                    {{  $errors->first('password') }}
-                                </span>
-                                @endif
-                            </div>
                         </div>
                         <div class="modal-footer">
-                        <input type="submit" value="Đăng ký" class="btn btn-primary float-right" id="registerBtn">
-                        <input type="button"  class="btn btn-danger" data-dismiss="modal" value="Close">
+                            <input type="submit" value="Đăng ký" class="btn btn-primary float-right" id="registerBtn">
+                            <input type="button" class="btn btn-danger" data-dismiss="modal" value="Close">
                         </div>
                     </form>
 
                     <!-- Modal footer -->
-{{--                    <div class="modal-footer">--}}
-{{--                        <input type="submit" value="Đăng ký" class="btn btn-primary float-right" id="registerBtn">--}}
-{{--                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>--}}
-{{--                    </div>--}}
+                    {{--                    <div class="modal-footer">--}}
+                    {{--                        <input type="submit" value="Đăng ký" class="btn btn-primary float-right" id="registerBtn">--}}
+                    {{--                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>--}}
+                    {{--                    </div>--}}
 
                 </div>
             </div>
@@ -123,7 +104,7 @@
                 <div class="tab-pane container active" id="list">
                     <table class="table table-hover">
                         <thead class="thead-light">
-                        <tr >
+                        <tr>
                             <th>Stt</th>
                             <th>Username</th>
                             <th>Email</th>
@@ -183,7 +164,8 @@
                             </li>
 
                             <li class="page-item">
-                                <a href="http://localhost:8000/user?page=2" rel="next" aria-label="Next »" class="page-link">›</a>
+                                <a href="http://localhost:8000/user?page=2" rel="next" aria-label="Next »"
+                                   class="page-link">›</a>
                             </li>
                         </ul>
                         @else
@@ -259,7 +241,8 @@
                             </li>
 
                             <li class="page-item">
-                                <a href="http://localhost:8000/user?page=2" rel="next" aria-label="Next »" class="page-link">›</a>
+                                <a href="http://localhost:8000/user?page=2" rel="next" aria-label="Next »"
+                                   class="page-link">›</a>
                             </li>
                         </ul>
                         @else
@@ -277,22 +260,20 @@
 @section('script')
     <script>
         $(function () {
-            $("#registerBtn").click( function () {
+            $("#registerBtn").click(function () {
 
                 $input = $('#storeForm input');
                 $length = $input.length;
 
-                $input.each( function () {
+                $input.each(function () {
 
                     $parent = $(this).parent();
                     $spanElement = $parent.children('span');
-                    if ( $(this).val() == ""  )
-                    {
+                    if ($(this).val() == "") {
 
-                        $spanElement.css("display","block");
-                    } else
-                    {
-                        $spanElement.css("display","none");
+                        $spanElement.css("display", "block");
+                    } else {
+                        $spanElement.css("display", "none");
                     }
                 });
             });

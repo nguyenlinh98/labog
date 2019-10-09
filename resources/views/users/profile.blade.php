@@ -38,7 +38,7 @@
                     <div class="d-flex justify-content-center mt-2">
                         <div title="Click to upload your avatar." class="btn-change-avatar" >
                             <img src="{{Storage::url(auth()->user()->images)}}" class="avatar "
-                                 style="height: 128px; width: 128px;">
+                                 style="height: 128px; width: 128px; border-radius: 50%">
                         </div>
                     </div>
                     <div class="form-group form-inline">

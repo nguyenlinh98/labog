@@ -59,4 +59,9 @@ class User extends Authenticatable
          return $this->belongsTo('App\Post','user_id','id');
      }
 
+    public function categories()
+    {
+        return $this->belongsTo('App\Category','user_id','id');
+    }
+
 }

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
     <div class="container">
-        <a class="navbar-brand" href="{{ url('/') }}">
+        <a class="navbar-brand" href="{{ url('/profile') }}">
             {{ config('app.name', 'Laravel') }}
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -12,18 +12,22 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
+                @can('view-category')
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ route('categories') }}">{{ __('Thể loại') }}</a>
                 </li>
+                @endcan
                 <li class="nav-item ">
                     <a class="nav-link" href="{{ route('posts') }}">{{ __('Bài viết') }}</a>
                 </li>
+                @can('admin')
                 <li class="nav-item">
                     <a class="nav-link" href={{ route('users') }}>{{ __('Tài khoản') }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href={{ route('roles') }}>{{ __('Quản lý Role') }}</a>
                 </li>
+                    @endcan
 
             </ul>
 

@@ -56,7 +56,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        //
+        return in_array($user->email, ['admin@example.com']);
     }
 
     /**

@@ -24,8 +24,8 @@ Route::prefix('post')->group( function (){
     Route::get('/show/{id}','PostController@show')->name('show');
     Route::get('/edit/{id}','PostController@edit')->name('edit');
     Route::patch('/update/{id}','PostController@update')->name('update');
-    Route::patch('/inactive/{id}','PostController@inactive')->name('inactive');
-    Route::get('/destroy/{id}','PostController@destroy')->name('destroy');
+    Route::get('/inactive/{id}','PostController@inactive')->name('inactive');
+    Route::delete('/destroy/{id}','PostController@destroy')->name('destroy');
     Route::get('/search','PostController@search')->name('search');
 });
 

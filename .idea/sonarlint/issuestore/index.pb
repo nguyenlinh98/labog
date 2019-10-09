@@ -143,3 +143,11 @@ K
 app/Policies/PostPolicy.php,5/a/5a23cf8ecee6317c3c5cf2259d8a070b9fed1514
 K
 app/Policies/UserPolicy.php,7/2/72a6f8426b50f2d6d3c0bdc2da818be7479c8989
+T
+$resources/views/users/show.blade.php,b/b/bb3bfedec485b965b924e9a72c2ba7237a6bf308
+l
+<database/migrations/2014_10_12_000000_create_users_table.php,d/e/de963aaada5c6577b654cfbdcf083dc355b1fa2b
+O
+app/Policies/CategoryPolicy.php,f/5/f548461eb3dc6fbcc3ca813d06f56ccba56d2ed4
+W
+'resources/views/auth/register.blade.php,8/6/8600e63b1d771a3b86abef40d1ef23e1ffb21feb

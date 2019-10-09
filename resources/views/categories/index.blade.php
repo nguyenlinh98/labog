@@ -1,4 +1,10 @@
 @extends('layouts.app')
+<style>
+    a.disabled {
+        pointer-events: none;
+        cursor: default;
+    }
+</style>
 @section('content')
     <div class="tab">
         <div class="title_category">
@@ -12,10 +18,12 @@
                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#list" role="tab" aria-controls="home"
                    aria-selected="true"><i class="fa fa-list-alt"></i> Danh sách thể loại</a>
             </li>
+            @can('create',\App\User::class)
             <li class="nav-item">
                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#delete_flag" role="tab"
                    aria-controls="profile" aria-selected="false"><i class="fa fa-backspace"></i>Vô hiệu hóa</a>
             </li>
+                @endcan
         </ul>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="list" role="tabpanel" aria-labelledby="home-tab">
@@ -48,12 +56,19 @@
                                 </td>
                                 <td>
                                     <form action="">
-                                        <a href="{{route('category.edit',$category->id)}}" class="btn btn-warning"><i class="fa fa-edit"></i></a>
+                                         @if(auth()->user()->role ==='admin')
+                                            <a href="{{route('category.edit',$category->id)}}" class="btn btn-warning"  ><i class="fa fa-edit"></i></a>
+                                             @else
+                                            <a href="{{route('category.edit',$category->id)}}" class="btn btn-warning disabled"  ><i class="fa fa-edit"></i></a>
+                                             @endif
+
+                                            @can('create',\App\User::class)
                                         @csrf
                                         @method('DELETE')
                                         <a href="{{route('category.inactive',$category->id)}}" class="btn btn-danger"
                                            onclick="return confirm('Bạn có chắc chắn muốn xóa?')"><i
                                                     class="fa fa-trash-alt"></i></a>
+                                            @endcan
                                     </form>
                                 </td>
                             </tr>
@@ -120,17 +135,22 @@
 
                                     </td>
                                     <td>{{$inactivecategory->active}}</td>
+
                                     <td>
                                         <form action="">
                                             @csrf
                                             @method('DELETE')
+                                            @can('create',\App\User::class)
                                             <a href="{{route('category.inactive',$inactivecategory->id)}}" class="btn btn-info"
                                                onclick="return confirm('Bạn có chắc chắn muốn khôi phục lại?')"><i class="fa fa-sync-alt"></i></a>
                                             <a href="{{route('category.destroy',$inactivecategory->id)}}" class="btn btn-danger"
                                                onclick="return confirm('Bạn có chắc chắn muốn xóa?')"><i
                                                         class="fa fa-trash-alt"></i></a>
+                                            @endcan
                                         </form>
+
                                     </td>
+
                                 </tr>
                         @endforeach
                     @endif

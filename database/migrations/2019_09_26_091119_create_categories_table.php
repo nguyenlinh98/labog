@@ -17,7 +17,8 @@ class CreateCategoriesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->boolean('status')->default('1');
-            $table->smallInteger('active');
+            $table->smallInteger('active')->default(null);
+            $table->unsignedInteger('user_id');
             $table->timestamps();
         });
     }

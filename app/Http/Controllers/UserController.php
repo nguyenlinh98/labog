@@ -33,7 +33,7 @@ class UserController extends Controller
     {
         $search_content = $request->search;
         $user  = auth()->user()->role;
-        $this->authorize($user,'viewAny');
+//        $this->authorize($user,'viewAny');
 
         $activeUsers = $this->user->getPagination(null, $search_content,'5');
         $inactiveUsers = $this->user->getPagination('1', $search_content,'5');
@@ -62,18 +62,8 @@ class UserController extends Controller
 
         $data = $this->validator($request->all());
         $user  = auth()->user()->role;
-        $this->authorize($user,'viewAny');
+        $this->authorize($user,'store');
         $users = new User();
-//         try{
-//             if (User::where('email', $request->email)->exists()) {
-//                 throw new Exception ('Email đã tồn tại');
-//             }else{
-//                 $users->email = $request->email;
-//             }
-//         }catch(Exception $exception)
-//         {
-//             return back()->withError('User has ID = ' . $request->input('user_id') . ' does not exist')->withInput();
-//         }
         $users->name = $request->name;
         $users->email = $request->email;
         $users->password = Hash::make('123456');

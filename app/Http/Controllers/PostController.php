@@ -27,12 +27,10 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-//        dd($request->all());
         $search = $request->search;
         $user  = auth()->user();
-//        dd($user);
-        $this->authorize($user->role,'viewAny');
-        if($user->role === 'admin')
+
+        if($user->role === 'admin' || $user->role === 'editor')
         {
             $activePosts = $this->post->getByActive(null,$search,5);
 
@@ -44,7 +42,6 @@ class PostController extends Controller
 
             $inactivePosts = $this->post->getPostByUser(1,$search,5,$user->id);
         }
-//         dd($activePosts);
         return view('posts.index', compact(['inactivePosts', 'activePosts']));
     }
 
@@ -73,7 +70,7 @@ class PostController extends Controller
 
         $posts = new Post([
             'title' => $request->title,
-//            'content' => $request->content,
+            'content' => $request->content,
             'publish' => $request->publish,
             'category_id' => $request->category_id
         ]);
@@ -91,17 +88,16 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $user = auth()->user();
-          if($user->role === 'admin')
-          {
-              $post = Post::all();
-          }
-          elseif(($user->role ==='editor')|| ($user->role === 'author'))
-          {
-              $post = Post::where('user_id','=',$user->id)->get();
-          }
-          dd($post);
-        return view('posts.show',compact('post'));
+//        $user = auth()->user();
+//          if($user->role === 'admin')
+//          {
+//              $post = Post::all();
+//          }
+//          elseif(($user->role ==='editor')|| ($user->role === 'author'))
+//          {
+//              $post = Post::where('user_id','=',$user->id)->get();
+//          }
+//        return view('posts.show',compact('post'));
     }
 
     /**
@@ -113,7 +109,7 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::find($id);
-        $categories = $this->category->getActiveCategory();
+        $categories = $this->category->getActiveCategory(null)->get();
         return view('posts.edit', compact('post', 'categories'));
     }
 
@@ -154,6 +150,7 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = Post::find($id);
+        $this->authorize($post,'delete-post');
         $post->delete();
         return redirect('/post')->with('success', 'Bài viết được xóa thành công!');
     }
