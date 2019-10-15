@@ -27,7 +27,7 @@
 <body>
     <div id="app">
         @include('layouts.nav')
-{{--        @include('nav')--}}
+        
 
         <main class="py-4">
             <div class="container">
@@ -38,3 +38,4 @@
     @yield('script')
 </body>
 </html>
+    

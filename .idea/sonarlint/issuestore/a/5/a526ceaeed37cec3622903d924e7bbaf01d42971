@@ -1,3 +1,5 @@
 
-:php:S125,"Remove this commented out code.(‘ßçá8ÅÁœ¤Ú-
-N	php:S1172*"-Remove the unused function parameter "$user".(Åûšòüÿÿÿÿ8ÅÁœ¤Ú-
+I	php:S1172@"-Remove the unused function parameter "$user".(Ìñæ†8·ˆÊòÚ-
+N	php:S1172E"-Remove the unused function parameter "$user".(«éÔ¦ıÿÿÿÿ8·ˆÊòÚ-
+c	php:S11923"GDefine a constant instead of duplicating this literal "editor" 3 times.(ÙÆìô8ëşëóÚ-
+g	php:S1192'"FDefine a constant instead of duplicating this literal "admin" 5 times.(Ó¹šïşÿÿÿÿ8“ëûõÚ-

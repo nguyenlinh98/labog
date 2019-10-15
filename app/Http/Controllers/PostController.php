@@ -108,7 +108,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::find($id);
+        $post = Post::findOrfail($id);
         $categories = $this->category->getActiveCategory(null)->get();
         return view('posts.edit', compact('post', 'categories'));
     }

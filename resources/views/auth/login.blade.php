@@ -1,12 +1,21 @@
 @extends('layouts.app')
+<style>
+    .card-header h1{
+        color: white;
+        margin-top: 50px;
+        font-size: 50px;
+        font-family: fantasy;
+    }
+    }
+</style>
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header"  style="background-image:url({{ URL::asset('image/bg-01.jpg')}}); background-size: cover;height: 200px;opacity: 0.65">
                     <h1>
-                        <i class="fa fa-unlock-alt"></i> {{ __('Login') }}
+                        {{ __('LOGIN') }}
                     </h1>
                 </div>
 

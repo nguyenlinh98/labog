@@ -15,8 +15,6 @@ W
 'app/Http/Controllers/UserController.php,7/d/7de9f5d267d12a172eff77837bcb8fb2e88564c2
 U
 %resources/views/users/index.blade.php,1/b/1bd662ec649efed653d74a22571600f6a20ca818
-^
-.app/Http/Controllers/ImageUploadCotnroller.php,a/e/aef2e6320ea154050519c101e529e736a3ffce52
 <
 app/User.php,5/1/5158cc6821d0344345606af2834807beae093242
 @
@@ -79,8 +77,6 @@ B
 public/index.php,0/e/0e61f67641b441bb3ee38e903c594d99cafa14b4
 W
 'app/Http/Controllers/HomeController.php,9/c/9c8530715f6b05b710e3fa767bada1e4d0297e47
-V
-&app/Http/Controllers/TagController.php,7/0/706a7dd1b65c0b46adefae9aff3f3b1540e20cb1
 U
 %resources/views/posts/index.blade.php,d/6/d6ec0ea5bf4127430338250cfeec922c4937ee09
 N
@@ -151,3 +147,11 @@ O
 app/Policies/CategoryPolicy.php,f/5/f548461eb3dc6fbcc3ca813d06f56ccba56d2ed4
 W
 'resources/views/auth/register.blade.php,8/6/8600e63b1d771a3b86abef40d1ef23e1ffb21feb
+T
+$resources/views/auth/login.blade.php,f/b/fb3cbd7f4b7fd6fa26794a37d7b2f8f783688ff9
+D
+public/css/style.css,1/e/1ef0e38ec90181a17549647e1a67072ac5d804da
+B
+public/css/app.css,a/e/aed169877220cb60c39687eb7ae1de7d4fb7946f
+A
+bootstrap/app.php,f/4/f4e0869689d9f3473be5a60831013b90d22203ca
