@@ -28,19 +28,16 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
-        $user  = auth()->user();
+        $user = auth()->user();
 
-        if($user->role === 'admin' || $user->role === 'editor')
-        {
-            $activePosts = $this->post->getByActive(null,$search,5);
+        if ($user->role === 'admin' || $user->role === 'editor') {
+            $activePosts = $this->post->getByActive(null, $search, 5);
 
-            $inactivePosts = $this->post->getByActive(1,$search,5);
-        }
-        else
-        {
-            $activePosts = $this->post->getPostByUser(null,$search,5,$user->id);
+            $inactivePosts = $this->post->getByActive(1, $search, 5);
+        } else {
+            $activePosts = $this->post->getPostByUser(null, $search, 5, $user->id);
 
-            $inactivePosts = $this->post->getPostByUser(1,$search,5,$user->id);
+            $inactivePosts = $this->post->getPostByUser(1, $search, 5, $user->id);
         }
         return view('posts.index', compact(['inactivePosts', 'activePosts']));
     }
@@ -124,13 +121,12 @@ class PostController extends Controller
     {
         $this->validator($request);
         $post = Post::find($id);
-        try{
-            if($post ==null)
-            {
+        try {
+            if ($post == null) {
                 throw new Exception('Không có bài viết nào có id này');
             }
-        }catch(Exception $e){
-            abort(403,$e->getMessage());
+        } catch (Exception $e) {
+            abort(403, $e->getMessage());
         }
         $post->title = $request->get('title');
         $post->content = $request->get('content');
@@ -149,8 +145,17 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $post = Post::find($id);
-        $this->authorize($post,'delete-post');
+        $post = Post::findOrFail($id);
+        try {
+            if($post  == null)
+            {
+                throw new Exception('Không có bài viết bài phù hợp');
+            }
+
+        } catch (Exception $e) {
+            abort(403,$e->getMessage());
+        }
+        $this->authorize($post, 'delete');
         $post->delete();
         return redirect('/post')->with('success', 'Bài viết được xóa thành công!');
     }
@@ -181,7 +186,7 @@ class PostController extends Controller
      */
     public function validator($data)
     {
-         return $data->validate([
+        return $data->validate([
             'title' => 'required|min:3|max:255',
             'content' => 'required',
             'publish' => 'required',

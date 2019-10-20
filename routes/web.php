@@ -52,3 +52,6 @@ Route::patch('/profile/update', 'UserController@updateProfile')->name('profile.u
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/roles', 'RoleController@index')->name('roles');
+
+Route::get('/tags','TagController@index')->name('tags');
+Route::post('/tags','TagController@store')->name('tag.store');

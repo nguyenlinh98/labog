@@ -13,7 +13,7 @@ class PostPolicy
 
     public function before(User $user)
     {
-        if($user->role ==='member')
+        if($user->role ==='admin')
         {
             return true;
         }
@@ -78,7 +78,8 @@ class PostPolicy
      */
     public function delete(User $user, Post $post)
     {
-        return $user->can('admin') || $user->id = $post->user_id;
+//
+         return $user->role ==='admin'|| $user->id = $post->user_id;
     }
 
     /**

@@ -27,7 +27,6 @@ class CategoryController extends Controller
         $activeCategories = $this->category->getCategory(null,$search,5);
         $inactiveCategories = $this->category->getCategory('1',$search,5);
         return view('categories.index',compact('activeCategories','inactiveCategories'));
-
     }
 
     /**
@@ -141,5 +140,6 @@ class CategoryController extends Controller
         $category->save();
         return redirect('/categories')->with('success','Danh mục '.$category->name.' đã chuyển đổi thành công!');
     }
+
 
 }

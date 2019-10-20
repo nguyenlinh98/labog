@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 
-use App\Post;
-use Illuminate\Http\Request;
+
+
 use Exception;
 use App\User;
+use App\Post;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -117,6 +120,7 @@ class UserController extends Controller
     public function update($id, Request $request)
     {
 
+
         $request->validate([
             'name' => 'required',
             'email' => 'required|string|max:255|email'
@@ -196,40 +200,44 @@ class UserController extends Controller
 
     public function updateProfile(Request $request)
     {
-        $id = Auth::guard()->user()->id;
+        $result = true;
         // Validate form
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|string|max:255|email'
-        ]);
-        $data = $request->only(['name','email']);
-        try {
-            // Lay ra user hien tai
-            $user = User::findOrFail($id);
+//        $val = Validator::make($request->all() , [
+//            'name' => 'required',
+//            'email' => 'required|string|max:255|email'
+//        ]);
+//        if ( $val->fails() ) {
+//            return response()->json(["message" => $val->errors()->all()], 400);
+//        }
 
-            if ($user == null)
-            {
+        try {
+            $data = $request->only(['name','email']);
+            // Lay ra user hien tai
+            $user = auth()->user();
+            if ($user == null) {
                 throw new Exception("Tài khoản không tồn tại");
             }
 
+            if ($request->password != null)  {
+                $data['password'] = Hash::make( $request->password );
+            }
+           if ( $request->has('images') ) {
+//                $request->validate(['images' => 'image']);
+                $data['images'] = Storage::disk('public')->put('avatar', $request->images);
+            }
+            $result = $user->update($data);
+
         } catch (\Exception $e)
         {
-            abort('404', $e->getMessage());
+            $result = false;
         }
-
-        if ($request->password != null)
-        {
-            $data['password'] = Hash::make( $request->password );
-        }
-
-        if ( $request->has('images') ) {
-            $request->validate(['images' => 'image']);
-            $data['images'] = Storage::disk('public')->put('avatar', $request->images);
-        }
-
         // Thay dổi name bằng  value trong input[name]
-        $user->update($data);
-        return redirect()->back()->with(['status' => 'Profile được cập nhật thành công!']);
+
+
+        return response()->json([
+            'success' => $result,
+            'image' => $user->images
+        ]);
     }
 
     protected function validator($data)

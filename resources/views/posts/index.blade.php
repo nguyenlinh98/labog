@@ -37,6 +37,7 @@
                         <th>Nội dung</th>
                         <th>Thể loại</th>
                         <th>Tình trạng</th>
+                        <th>Tác giả</th>
                         <th>Xuất bản</th>
                         <th colspan="3">Hành động</th>
                     </tr>
@@ -65,6 +66,7 @@
                                             <button type="button" class="btn btn-danger">Disable</button>
                                         @endif
                                     </td>
+                                    <td>{{ $activePost->user->name }}</td>
                                     <td>
                                         @if($activePost->publish == 1)
                                             <button type="button" class="btn btn-success"><i class="fa fa-eye"></i></button>
@@ -97,6 +99,7 @@
                             <th>Nội dung</th>
                             <th>Thể loại</th>
                             <th>Tình trạng</th>
+                            <th> Tác giả</th>
                             <th>Xuất bản</th>
                             <th colspan="3">Hành động</th>
                         </tr>
@@ -170,7 +173,7 @@
                                             <button type="button" class="btn btn-danger"><i class="fa fa-eye-slash"></i></button>
                                         @endif
                                     </td>
-                                    <td>
+                                    <td class="form-inline">
                                         <form action="" method="post">
                                             @csrf
                                             @method('PATCH')
@@ -178,7 +181,8 @@
                                                onclick="return confirm('Bạn có chắc chắn muốn khôi phục dữ liệu?')"><i
                                                         class="fa fa-sync-alt"></i></a>
                                         </form>
-                                        @can('delete-post')
+
+                                         @if( auth()->user()->role === 'admin' || $inactivePost->user_id === Auth::user()->id)
                                         <a href="#" class="btn btn-danger"
                                            onclick=" event.preventDefault();  document.getElementById('formDel-{{$inactivePost->id}}').submit();">
                                             <i class="fa fa-trash-alt"></i></a>
@@ -188,7 +192,8 @@
                                             @csrf
                                             @method('DELETE')
                                         </form>
-                                        @endcan
+                                        @endif
+                                    </td>
                                 </tr>
                         @endforeach
                     @endif

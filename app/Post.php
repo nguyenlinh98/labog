@@ -12,10 +12,6 @@ class Post extends Model
 
     protected $table = 'posts';
 
-    public function category()
-    {
-        return $this->hasOne('App\Category', 'id','category_id');
-    }
 
     public function getByActive($active = null, $search = '', $paginate = 1)
     {
@@ -31,6 +27,10 @@ class Post extends Model
             ->where('title','like','%'.$search.'%')
             ->paginate($paginate);
 
+    }
+    public function category()
+    {
+        return $this->hasOne('App\Category', 'id','category_id');
     }
 
     public function user()

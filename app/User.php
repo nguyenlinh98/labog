@@ -54,10 +54,10 @@ class User extends Authenticatable
          return $this->images;
      }
 
-     public function posts()
-     {
-         return $this->belongsTo('App\Post','user_id','id');
-     }
+//     public function posts()
+//     {
+//         return $this->belongsTo('App\Post','user_id','id');
+//     }
 
     public function categories()
     {
