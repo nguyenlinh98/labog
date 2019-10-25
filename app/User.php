@@ -49,10 +49,10 @@ class User extends Authenticatable
             ->paginate($paginate);
     }
 
-     public function getAttributeImage()
-     {
-         return $this->images;
-     }
+    public function findEmail($email,$status = 1)
+    {
+        return $this->where('email',$email)->first();
+    }
 
 //     public function posts()
 //     {

@@ -34,7 +34,7 @@
                 <p class="card-subtitle">
                     Quản lý thông tin cá nhân của bạn và thông tin liên lạc.
                 </p>
-                <form class="el-form mt-4"  method="post" enctype="multipart/form-data" id="form-update" >
+                <form class="el-form mt-4"  method="post" enctype="multipart/form-data" id="form-update"  >
                     @csrf
                     @method('PATCH')
                     <div class="d-flex justify-content-center mt-2">
@@ -109,11 +109,13 @@
                 // processData: false,
                 dataType: 'json',
                 data: data,
-                beforeSend : function() {
-                    console.log(data);
-                },
+                // beforeSend : function() {
+                //     console.log(data);
+                // },
                  success:function(data){
-                    // console.log(data);
+                     $('#form-update').append(data);
+                     // $('#form-update')[0].reset();
+                     // $('#form-update').DataTable().ajax.reload();
                  }
             });
         });

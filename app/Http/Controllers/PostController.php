@@ -34,12 +34,14 @@ class PostController extends Controller
             $activePosts = $this->post->getByActive(null, $search, 5);
 
             $inactivePosts = $this->post->getByActive(1, $search, 5);
+            $categories = $this->category->getActiveCategory(null)->get();
         } else {
             $activePosts = $this->post->getPostByUser(null, $search, 5, $user->id);
 
             $inactivePosts = $this->post->getPostByUser(1, $search, 5, $user->id);
+            $categories = $this->category->getActiveCategory(null)->get();
         }
-        return view('posts.index', compact(['inactivePosts', 'activePosts']));
+        return view('posts.index', compact(['inactivePosts', 'activePosts','categories']));
     }
 
     /**
@@ -178,6 +180,18 @@ class PostController extends Controller
         $post->save();
 //        dd($post);
         return redirect('/post');
+    }
+
+    /**
+     *  Change active record with id selected
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function inactiveAll(Request $request)
+    {
+        $delid = $request->input('check');
+        $this->post->whereIn('id',$delid)->update(['active' => 1]);
+        return redirect('/post')->with('success','Product has been delete deleted successfully');
     }
 
     /**

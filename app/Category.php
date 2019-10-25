@@ -22,6 +22,13 @@ class Category extends Model
         return $this->where('active', '=', $active);
     }
 
+    public function inactive($id,$status = null ){
+        $this->where('id', $id)
+            ->update(array(
+                'status'=>$status,
+            ));
+    }
+
     public function posts()
     {
         return $this->hasMany(Post::class);

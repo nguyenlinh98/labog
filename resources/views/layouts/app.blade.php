@@ -26,12 +26,10 @@
             </div>
         </main>
     </div>
-
     <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}" ></script>
     <script src="{{asset('/bootstrap-4.3.1-dist/js/bootstrap.js')}}"></script>
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" ></script>
-{{--    <script src="{{ asset('js/app.js') }}" defer></script>--}}
     @yield('script')
 </body>
 </html>

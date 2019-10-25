@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
+    /**
+     * CategoryController constructor.
+     * @param Category $category
+     */
     public function __construct(Category $category)
     {
         $this->middleware('auth');
@@ -51,10 +55,12 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255',
             'status' => 'required'
         ]);
-//        dd($request);
         $categories = new Category();
-        $categories->name = $request->get('name');
-        $categories->status = $request->get('status');
+        if ($request->has(['name', 'email'])) {
+
+            $categories->name = $request->get('name');
+            $categories->status = $request->get('status');
+        }
         $categories->user_id = auth()->user()->id;
         $categories->save();
         return redirect('/categories')->with('success','Thêm mới bản ghi thành công!');
@@ -114,18 +120,23 @@ class CategoryController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     *  Remove the specified resource from muti record storage.
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $category = Category::find($id);
-        $category->delete();
+        $id = $request->get('option');
+        $category = $this->category->whereIn('id',$id)->delete();
         return redirect('/categories')->with('success','Xóa bản ghi thành công');
 
     }
+
+    /**
+     *  Change active record of record
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
 
     public function inactive($id)
     {
@@ -139,6 +150,19 @@ class CategoryController extends Controller
         }
         $category->save();
         return redirect('/categories')->with('success','Danh mục '.$category->name.' đã chuyển đổi thành công!');
+    }
+
+    /**
+     * Changle acvtive of Record with id selected
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+
+    public function inactiveAll(Request $request)
+    {
+        $id = $request->get('option');
+        $category = $this->category->whereIn('id',$id)->update(['active'=> 1]);
+        return redirect('/categories');
     }
 
 

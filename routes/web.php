@@ -24,6 +24,7 @@ Route::prefix('post')->group(function () {
     Route::patch('/update/{id}', 'PostController@update')->name('update');
     Route::get('/inactive/{id}', 'PostController@inactive')->name('inactive');
     Route::delete('/destroy/{id}', 'PostController@destroy')->name('destroy');
+    Route::patch('/inactiveAll', 'PostController@inactiveAll')->name('inactiveAll');
     Route::get('/search', 'PostController@search')->name('search');
 });
 
@@ -34,7 +35,9 @@ Route::post('categories', 'CategoryController@store')->name('categories.store');
 Route::get('category/edit/{id}', 'CategoryController@edit')->name('category.edit');
 Route::patch('category/update/{id}', 'CategoryController@update')->name('category.update');
 Route::get('category/inactive/{id}', 'CategoryController@inactive')->name('category.inactive');
-Route::get('category/destroy/{id}', 'CategoryController@destroy')->name('category.destroy');
+Route::delete('category/destroy', 'CategoryController@destroy')->name('category.destroy');
+// delete all multiple record
+Route::patch('category/inactiveAll','CategoryController@inactiveAll');
 Auth::routes();
 
 //user
@@ -45,13 +48,17 @@ Route::get('/users/edit/{id}', 'UserController@edit')->name('users.edit');
 Route::patch('/users/update/{id}', 'UserController@update')->name('users.update');
 Route::patch('/users/inactive/{id}', 'UserController@inactive')->name('users.inactive');
 Route::delete('/users/destroy/{id}', 'UserController@destroy')->name('users.destroy');
+Route::patch('/users/deleteAll','UserController@deleteAll')->name('users.deleteAll');
 
 Route::get('/profile', 'UserController@profile')->name('profile');
 Route::patch('/profile/update', 'UserController@updateProfile')->name('profile.update');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/roles', 'RoleController@index')->name('roles');
+//Route::get('/roles', 'RoleController@index')->name('roles');
 
 Route::get('/tags','TagController@index')->name('tags');
 Route::post('/tags','TagController@store')->name('tag.store');
+
+Route::get('/redirect/{social}','SocialAuthController@redirectToProvider');
+Route::get('/callback/{social}','SocialAuthController@handleProviderCallback');

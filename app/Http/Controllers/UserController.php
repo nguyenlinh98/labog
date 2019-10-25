@@ -7,19 +7,14 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\User;
-use App\Post;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use App\Traits\UploadTrait;
 
 
 class UserController extends Controller
 {
-    use UploadTrait;
 
     public function __construct(User $user)
     {
@@ -36,7 +31,7 @@ class UserController extends Controller
     {
         $search_content = $request->search;
         $user  = auth()->user()->role;
-//        $this->authorize($user,'viewAny');
+        $this->authorize($user,'viewAny');
 
         $activeUsers = $this->user->getPagination(null, $search_content,'5');
         $inactiveUsers = $this->user->getPagination('1', $search_content,'5');
@@ -193,11 +188,18 @@ class UserController extends Controller
         return redirect('/users')->with('success', 'Tài khoản ' . $user->name . ' đã được chuyển đổi');
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function profile()
     {
         return view('users.profile');
     }
 
+    /***
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateProfile(Request $request)
     {
         $result = true;
@@ -238,6 +240,18 @@ class UserController extends Controller
             'success' => $result,
             'image' => $user->images
         ]);
+    }
+
+    /**
+     *  Remove record with  id checked.
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function deleteAll(Request $request)
+    {
+        $delid = $request->input('option');
+        $this->user->whereIn('id',$delid)->update(['active' => 1]);
+        return redirect('/users')->with('success','Product has been delete deleted successfully');
     }
 
     protected function validator($data)

@@ -120,7 +120,7 @@ class RouteCollectionBuilderTest extends TestCase
         // 3) Add another route
         $routes->add('/', 'AppBundle:Default:homepage', 'homepage');
         // 4) Add another route
-        $routes->add('/admin', 'AppBundle:Admin:dashboard', 'admin_dashboard');
+        $routes->add('/admin', 'AppBundle:AuthAdmin:dashboard', 'admin_dashboard');
 
         // set a default value
         $routes->setDefault('_locale', 'fr');
@@ -149,7 +149,7 @@ class RouteCollectionBuilderTest extends TestCase
         $collectionBuilder = new RouteCollectionBuilder();
 
         // add a "named" route
-        $collectionBuilder->add('/admin', 'AppBundle:Admin:dashboard', 'admin_dashboard');
+        $collectionBuilder->add('/admin', 'AppBundle:AuthAdmin:dashboard', 'admin_dashboard');
         // add an unnamed route
         $collectionBuilder->add('/blogs', 'AppBundle:Blog:list')
             ->setMethods(['GET']);

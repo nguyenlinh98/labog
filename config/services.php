@@ -19,19 +19,26 @@ return [
         'secret' => env('MAILGUN_SECRET'),
         'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
     ],
-
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],
-
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
-
     'sparkpost' => [
         'secret' => env('SPARKPOST_SECRET'),
+    ],
+//    'facebook' => [
+//        'client_id' => env('FACEBOOK_CLIENT_ID'),
+//        'client_secret' => env('FACEBOOK_APP_SECRET'),
+//        'redirect' => env('FACEBOOK_APP_CALLBACK_URL'),
+//    ],
+    'facebook' => [
+        'client_id' => '1235578659961588',
+        'client_secret' => '54b6f95e51a8a28cac5e885ef98d9bd0',
+        'redirect' => '/callback/facebook',
     ],
 
 
