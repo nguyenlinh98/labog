@@ -24,9 +24,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href={{ route('users') }}>{{ __('Tài khoản') }}</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href={{ route('roles') }}>{{ __('Quản lý Role') }}</a>
-                </li>
+{{--                <li class="nav-item">--}}
+{{--                    <a class="nav-link" href={{ route('roles') }}>{{ __('Quản lý Role') }}</a>--}}
+{{--                </li>--}}
                     @endcan
 
             </ul>

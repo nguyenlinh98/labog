@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Notifications\ActivationUser as ActivationUserNotification;
 
 class RegisterController extends Controller
 {
@@ -68,5 +70,21 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    /**
+     * The user has been registered.
+     *Sau khi đăng ký thành công thì hệ thống
+     *  sễ gửi mail cho người dùng 1 để update active tài khoản
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        $user->notify(new ActivationUserNotification($user));
+        $this->guard()->logout();
+         return  redirect()->route('login')->with('success','We sent activation mail to you,please check your mail box!');
+
     }
 }

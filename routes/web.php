@@ -55,10 +55,11 @@ Route::patch('/profile/update', 'UserController@updateProfile')->name('profile.u
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-//Route::get('/roles', 'RoleController@index')->name('roles');
-
 Route::get('/tags','TagController@index')->name('tags');
 Route::post('/tags','TagController@store')->name('tag.store');
 
 Route::get('/redirect/{social}','SocialAuthController@redirectToProvider');
 Route::get('/callback/{social}','SocialAuthController@handleProviderCallback');
+
+// token active before login
+Route:: get('/activation/{token}','Auth\LoginController@activation')->name('activation')->middleware('signed');

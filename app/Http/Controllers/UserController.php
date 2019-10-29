@@ -18,7 +18,7 @@ class UserController extends Controller
 
     public function __construct(User $user)
     {
-        $this->middleware('userAuth:web');
+        $this->middleware(['userAuth:web','only_activated_user']);
         $this->user = $user;
     }
 
@@ -33,8 +33,8 @@ class UserController extends Controller
         $user  = auth()->user()->role;
         $this->authorize($user,'viewAny');
 
-        $activeUsers = $this->user->getPagination(null, $search_content,'5');
-        $inactiveUsers = $this->user->getPagination('1', $search_content,'5');
+        $activeUsers = $this->user->getPagination(1, $search_content,'5');
+        $inactiveUsers = $this->user->getPagination(null, $search_content,'5');
 
         return view('users.index', compact(['activeUsers', 'inactiveUsers']));
     }
@@ -250,7 +250,7 @@ class UserController extends Controller
     public function deleteAll(Request $request)
     {
         $delid = $request->input('option');
-        $this->user->whereIn('id',$delid)->update(['active' => 1]);
+        $this->user->whereIn('id',$delid)->update(['active' => null]);
         return redirect('/users')->with('success','Product has been delete deleted successfully');
     }
 
